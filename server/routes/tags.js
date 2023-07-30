@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   res.send(tags);
 });
 
-router.post("/",[auth, admin], async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   const { error } = validateTag(req.body);
   if (error) return res.status(400).send("enter a valid tag");
   const tag = new Tag({
@@ -19,10 +19,15 @@ router.post("/",[auth, admin], async (req, res) => {
   try {
     await tag.save();
     console.log("tag created");
-    res.send(_.pick(tag, ["_id","name", "used" ]));
+    res.send(_.pick(tag, ["_id", "name", "used"]));
   } catch (err) {
     console.log("err", err);
   }
+});
+
+router.post("/create", async (req, res) => {
+  console.log("creating tagf...");
+  res.send("Tryna create tag.");
 });
 
 module.exports = router;
