@@ -1,24 +1,25 @@
+import Joi from "joi-browser";
 import React, { useState } from "react";
 import { createtag } from "../services/tagCreateService";
 import Form from "./common/form";
-import Joi from 'joi-browser';
+import Input from "./common/input";
 
 class Profile extends Form {
   state = {
-    data: {
-      tagName: "",
-    },
-  };
-  schema = {
-    tagName: Joi.string().required(),
+    data: { name: "" },
+    errors: { name: "" },
+    tags: [],
   };
 
-  doSubmit = async (e) => {
+  schema = {
+    name: Joi.string().required().min(5).max(25).label("TagName"),
+  };
+
+  doSubmit = async () => {
     try {
-      const { data } = this.state.tagName;
+      const { data } = this.state;
       const { response } = await createtag(data);
       console.log(response);
-      window.location = "/dashboard";
     } catch (ex) {}
   };
 
@@ -26,11 +27,13 @@ class Profile extends Form {
     return (
       <>
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Název tagu"
-            value={this.state.tagName}
+          <Input
+            value={this.state.data.name}
             onChange={this.handleChange}
+            label="TagName"
+            name="name"
+            type="text"
+            error={this.state.errors.name}
           />
           <input type="submit" />
         </form>
