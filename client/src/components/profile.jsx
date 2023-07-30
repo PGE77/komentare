@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createtag } from "../services/tagCreateService";
 import Form from "./common/form";
-import Joi from "joi-browser";
+import Joi from 'joi-browser';
 
 class Profile extends Form {
   state = {
@@ -10,7 +10,7 @@ class Profile extends Form {
     },
   };
   schema = {
-    tag: Joi.string().required().min(5).max(25),
+    tagName: Joi.string().required(),
   };
 
   doSubmit = async (e) => {
